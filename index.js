@@ -8,7 +8,7 @@ const axios = require("axios").default;
 
 // https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US
 // https://api.themoviedb.org/3/genre/movie/list?api_key=c0af7194607876d6036970e4504abc6d&language=en-US
-
+//
 // trends movie per stato+
 // trends per giorno TODO: DA METTERE IN UNA RIGA
 // https://api.themoviedb.org/3/trending/movie/day?api_key=c0af7194607876d6036970e4504abc6d&language=en-US
