@@ -19,9 +19,9 @@ const APY_KEY = "c0af7194607876d6036970e4504abc6d";
 
 // localhost:2000/api/movie/trends?type=all&time=day
 
+//TODO: TREND FILMS DEL GIORNO, SETTIMANA, MESE, ANNO + TUTTI I TIPI , FILM, TV
 // test:
 // localhost:2000/api/movie/trends/movie/day
-
 app.get(`/api/movie/trends/:type/:time`, (req, resp) => {
   //const country = req.query.country;
   const type = req.params.type; // all, movie, tv
@@ -33,7 +33,7 @@ app.get(`/api/movie/trends/:type/:time`, (req, resp) => {
     .get("https://api.themoviedb.org/3/trending/" + type + "/" + time, {
       params: {
         api_key: APY_KEY,
-        language: "en-US",
+        language: "it-IT",
       },
     })
     .then(function (response) {
@@ -48,7 +48,7 @@ app.get(`/api/movie/trends/:type/:time`, (req, resp) => {
     });
 });
 
-// movies id
+// TODO: RiCERCA FILM PER ID
 // https://api.themoviedb.org/3/movie/ID?api_key=c0af7194607876d6036970e4504abc6d&language=it-IT
 // localhost:2000/movie/3
 app.get("/api/movie/:id", (req, resp) => {
@@ -72,11 +72,14 @@ app.get("/api/movie/:id", (req, resp) => {
     });
 });
 
-// search movies
+// TODO: RICERCA FILM PER TITOLO E TIPO
 // https://api.themoviedb.org/3/search/movie?api_key=c0af7194607876d6036970e4504abc6d&language=it-IT&query=NOME_MOVIE
+// test:
+// http://localhost:2000/api/movie/search/movie/spiderman
 app.get("/api/movie/search/:type/:query", (req, resp) => {
   const type = req.params.type;
   const query = req.params.query;
+  const adult = false;
   // Make a request for a user with a given ID
   axios
     .get("https://api.themoviedb.org/3/search/" + type, {
@@ -84,6 +87,7 @@ app.get("/api/movie/search/:type/:query", (req, resp) => {
         api_key: APY_KEY,
         language: "it-IT",
         query: query,
+        include_adult: adult,
       },
     })
     .then(function (response) {
@@ -97,7 +101,7 @@ app.get("/api/movie/search/:type/:query", (req, resp) => {
     });
 });
 
-//search for genre
+// TODO: RICERCA PER GENERE
 // lista di tutti i generi:
 // https://api.themoviedb.org/3/genre/movie/list?api_key=c0af7194607876d6036970e4504abc6d&language=it-IT
 
@@ -105,16 +109,17 @@ app.get("/api/movie/search/:type/:query", (req, resp) => {
 // https://api.themoviedb.org/3/discover/movie?api_key=c0af7194607876d6036970e4504abc6d&language=it-IT&with_genres=ID_GENERE
 // ricerva un max di 20 film per genere (possono avere più generi)
 // TODO: da vedere se la ricerca è random, o se aggiorni cambiano i film (SEMBRA DI NO)
-// localhost:2000/api/movie/search/genere?ID_GENERE=${id}
-app.get("/api/movie/search/genere", (req, resp) => {
-  const ID_GENERE = req.query.ID_GENERE;
+// localhost:2000/api/movie/search/genere?id_genere=${id}
+app.get("/api/movie/search/:id_genere", (req, resp) => {
+  const id_genere = req.params.id_genere;
+  const type = req.params.type;
   // Make a request for a user with a given ID
   axios
-    .get("https://api.themoviedb.org/3/discover/movie", {
+    .get("https://api.themoviedb.org/3/discover/" + type, {
       params: {
         api_key: APY_KEY,
         language: "it-IT",
-        with_genres: ID_GENERE,
+        with_genres: id_genere,
       },
     })
 
