@@ -74,11 +74,12 @@ app.get("/api/movie/:id", (req, resp) => {
 
 // search movies
 // https://api.themoviedb.org/3/search/movie?api_key=c0af7194607876d6036970e4504abc6d&language=it-IT&query=NOME_MOVIE
-app.get("/api/movie/search/movie", (req, resp) => {
-  const query = req.query.query;
+app.get("/api/movie/search/:type/:query", (req, resp) => {
+  const type = req.params.type;
+  const query = req.params.query;
   // Make a request for a user with a given ID
   axios
-    .get("https://api.themoviedb.org/3/search/movie", {
+    .get("https://api.themoviedb.org/3/search/" + type, {
       params: {
         api_key: APY_KEY,
         language: "it-IT",
