@@ -11,40 +11,27 @@ const APY_KEY = "c0af7194607876d6036970e4504abc6d";
 // https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US
 // https://api.themoviedb.org/3/genre/movie/list?api_key=c0af7194607876d6036970e4504abc6d&language=en-US
 
-// TODO: DA FIXARE, NON VA
-//! LINK: https://developers.themoviedb.org/3/trending/get-trending
-// trends movie per stato
-// trends per giorno TODO: DA METTERE IN UNA RIGA
-// TODO: day, week, month, year
 // per giorno:
 // https://api.themoviedb.org/3/trending/movie/day?api_key=c0af7194607876d6036970e4504abc6d&language=en-US
-// per settimana:
-// https://api.themoviedb.org/3/trending/movie/week?api_key=c0af7194607876d6036970e4504abc6d&language=en-US
-// per mese:
-// https://api.themoviedb.org/3/trending/movie/month?api_key=c0af7194607876d6036970e4504abc6d&language=en-US
-// per anno:
-// https://api.themoviedb.org/3/trending/movie/year?api_key=c0af7194607876d6036970e4504abc6d&language=en-US
 
 // scomposto:
 // https://api.themoviedb.org/3/trending/ + all + / + day + ? + api_key + &language=en-US
 
-// https://localhost:2000/api/movie/trends?type=all&time=day
+// localhost:2000/api/movie/trends?type=all&time=day
 
 // test:
 // localhost:2000/api/movie/trends/movie/day
 
 app.get(`/api/movie/trends/:type/:time`, (req, resp) => {
   //const country = req.query.country;
-  const type = req.query.type; // all, movie, tv
-  const time = req.query.time; // day, week, month, year
+  const type = req.params.type; // all, movie, tv
+  const time = req.params.time; // day, week, month, year
   //const language = req.query.language; // en-US, it-IT, es-ES, ...
 
   // Make a request for a user with a given ID
   axios
-    .get(`https://api.themoviedb.org/3/trending/${type}/${time}/`, {
+    .get("https://api.themoviedb.org/3/trending/" + type + "/" + time, {
       params: {
-        //type: type,
-        //time: time,
         api_key: APY_KEY,
         language: "en-US",
       },
@@ -63,7 +50,7 @@ app.get(`/api/movie/trends/:type/:time`, (req, resp) => {
 
 // movies id
 // https://api.themoviedb.org/3/movie/ID?api_key=c0af7194607876d6036970e4504abc6d&language=it-IT
-// localhost:2000/movie/:id
+// localhost:2000/movie/3
 app.get("/api/movie/:id", (req, resp) => {
   const id = req.params.id;
   // Make a request for a user with a given ID
@@ -139,10 +126,6 @@ app.get("/api/movie/search/genere", (req, resp) => {
       // handle error
       console.log(error);
     });
-});
-
-app.get("/ciao", (req, res) => {
-  res.send("<h2>Ciao a tutti!</h2>");
 });
 
 app.listen(port, () => {
