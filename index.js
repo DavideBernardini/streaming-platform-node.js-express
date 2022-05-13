@@ -4,6 +4,8 @@ const axios = require("axios").default;
 
 const port = 2000;
 const APY_KEY = "c0af7194607876d6036970e4504abc6d";
+
+//DOC AXIOS: https://axios-http.com/docs/example
 // API KEY:
 // c0af7194607876d6036970e4504abc6d
 
@@ -61,7 +63,6 @@ app.get("/api/movie/:id", (req, resp) => {
     })
     .then(function (response) {
       // handle success
-      console.log(response);
       resp.send(response.data);
     })
     .catch(function (error) {
@@ -76,6 +77,7 @@ app.get("/api/movie/:id", (req, resp) => {
 
 // https://api.themoviedb.org/3/movie/671/videos?api_key=c0af7194607876d6036970e4504abc6d&language=en-US
 // localhost:2000/api/video/movie/671
+
 app.get("/api/video/:type/:id", (req, resp) => {
   const type = req.params.type; // all, movie, tv
   const id = req.params.id;
@@ -90,7 +92,17 @@ app.get("/api/video/:type/:id", (req, resp) => {
     .then(function (response) {
       // handle success
       console.log(response);
-      resp.send(response.data);
+      //resp.send(response.data);
+
+      // TEST
+      if (type === "movie") {
+        resp.json.stringify(
+          "https://www.youtube.com/watch?v=" + response.data.results[0].key
+        );
+      } else if (type === "tv") {
+        resp.send("" + response.data.results[0].name);
+      }
+      // TEST
     })
     .catch(function (error) {
       // handle error
@@ -101,6 +113,7 @@ app.get("/api/video/:type/:id", (req, resp) => {
 
 // https://api.themoviedb.org/3/search/movie?api_key=c0af7194607876d6036970e4504abc6d&language=it-IT&query=NOME_MOVIE
 // localhost:2000/api/title/search/movie/spiderman
+
 app.get("/api/title/search/:type/:query", (req, resp) => {
   const type = req.params.type; //movie, tv
   const query = req.params.query; // spiderman, titanic, ...
@@ -135,7 +148,8 @@ app.get("/api/title/search/:type/:query", (req, resp) => {
               original_language: item.original_language,
               adult: item.adult,
               genre_ids: item.genre_ids,
-              video: item.video,
+              //video: item.video,
+              video: "./api/video/" + type + "/" + item.id, //da togliere
             };
           })
         );
