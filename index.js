@@ -61,6 +61,8 @@ app.get("/api/movie/:id", (req, resp) => {
     })
     .then(function (response) {
       // handle success
+      console.log(response);
+      resp.send(response.data);
     })
     .catch(function (error) {
       // handle error
