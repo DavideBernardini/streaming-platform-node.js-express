@@ -36,9 +36,45 @@ app.get(`/api/movie/trends/:type/:time`, (req, resp) => {
     })
     .then(function (response) {
       // handle success
-      console.log(response);
-
-      resp.send(response.data);
+      if (type === "movie") {
+        resp.json(
+          response.data.results.map((item) => {
+            return {
+              id: item.id,
+              title: item.title,
+              original_title: item.original_title,
+              overview: item.overview,
+              release_date: item.release_date,
+              poster_path: item.poster_path,
+              backdrop_path: item.backdrop_path,
+              vote_average: item.vote_average,
+              popularity: item.popularity,
+              original_language: item.original_language,
+              adult: item.adult,
+              genre_ids: item.genre_ids,
+              video: item.video,
+            };
+          })
+        );
+      } else if (type === "tv") {
+        resp.json(
+          response.data.results.map((item) => {
+            return {
+              name: item.name,
+              original_name: item.original_name,
+              overview: item.overview,
+              first_air_date: item.first_air_date,
+              poster_path: item.poster_path,
+              backdrop_path: item.backdrop_path,
+              vote_average: item.vote_average,
+              popularity: item.popularity,
+              original_language: item.original_language,
+              genre_ids: item.genre_ids,
+              video: item.video,
+            };
+          })
+        );
+      }
     })
     .catch(function (error) {
       // handle error
