@@ -60,6 +60,7 @@ app.get(`/api/movie/trends/:type/:time`, (req, resp) => {
         resp.json(
           response.data.results.map((item) => {
             return {
+              id: item.id,
               name: item.name,
               original_name: item.original_name,
               overview: item.overview,
@@ -130,11 +131,11 @@ app.get("/api/video/:type/:id", (req, resp) => {
       //resp.send(response.data); //escono tutte le info
       // TEST
       if (type === "movie") {
-        resp.send(
+        resp.json(
           "https://www.youtube.com/watch?v=" + response.data.results[0].key
         );
       } else if (type === "tv") {
-        resp.send("" + response.data.results[0].name);
+        resp.json("" + response.data.results[0].name);
       }
       //TEST
     })
@@ -161,6 +162,7 @@ app.get("/api/title/search/:type/:query", (req, resp) => {
         language: language,
         query: query,
         include_adult: adult,
+        
       },
     })
     .then(function (response) {
@@ -189,6 +191,7 @@ app.get("/api/title/search/:type/:query", (req, resp) => {
         resp.json(
           response.data.results.map((item) => {
             return {
+              id: item.id,
               name: item.name,
               original_name: item.original_name,
               overview: item.overview,
@@ -199,6 +202,7 @@ app.get("/api/title/search/:type/:query", (req, resp) => {
               popularity: item.popularity,
               original_language: item.original_language,
               genre_ids: item.genre_ids,
+              video: item.video,
             };
           })
         );
@@ -217,7 +221,7 @@ app.get("/api/title/search/:type/:query", (req, resp) => {
 // ricerca per genere
 // https://api.themoviedb.org/3/discover/movie?api_key=c0af7194607876d6036970e4504abc6d&language=it-IT&with_genres=ID_GENERE
 // localhost:2000/api/movie/search/genere?id_genere=${id}
-app.get("/api/movie/search/:id_genere", (req, resp) => {
+app.get("/api/:type/search/:id_genere", (req, resp) => {
   const id_genere = req.params.id_genere;
   const type = req.params.type;
   const language = "it-IT";
@@ -228,13 +232,52 @@ app.get("/api/movie/search/:id_genere", (req, resp) => {
         api_key: APY_KEY,
         language: language,
         with_genres: id_genere,
+        include_video : true,
       },
     })
 
     .then(function (response) {
       // handle success
-      console.log(response);
-      resp.send(response.data);
+      if (type === "movie") {
+        resp.json(
+          response.data.results.map((item) => {
+            return {
+              id: item.id,
+              title: item.title,
+              original_title: item.original_title,
+              overview: item.overview,
+              release_date: item.release_date,
+              poster_path: item.poster_path,
+              backdrop_path: item.backdrop_path,
+              vote_average: item.vote_average,
+              popularity: item.popularity,
+              original_language: item.original_language,
+              adult: item.adult,
+              genre_ids: item.genre_ids,
+              video: item.video,
+            };
+          })
+        );
+      } else if (type === "tv") {
+        resp.json(
+          response.data.results.map((item) => {
+            return {
+              id: item.id,
+              name: item.name,
+              original_name: item.original_name,
+              overview: item.overview,
+              first_air_date: item.first_air_date,
+              poster_path: item.poster_path,
+              backdrop_path: item.backdrop_path,
+              vote_average: item.vote_average,
+              popularity: item.popularity,
+              original_language: item.original_language,
+              genre_ids: item.genre_ids,
+              video: item.video,
+            };
+          })
+        );
+      }
     })
     .catch(function (error) {
       // handle error
