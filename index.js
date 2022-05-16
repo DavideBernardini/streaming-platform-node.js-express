@@ -162,7 +162,6 @@ app.get("/api/title/search/:type/:query", (req, resp) => {
         language: language,
         query: query,
         include_adult: adult,
-        
       },
     })
     .then(function (response) {
@@ -220,7 +219,7 @@ app.get("/api/title/search/:type/:query", (req, resp) => {
 
 // ricerca per genere
 // https://api.themoviedb.org/3/discover/movie?api_key=c0af7194607876d6036970e4504abc6d&language=it-IT&with_genres=ID_GENERE
-// localhost:2000/api/movie/search/genere?id_genere=${id}
+// localhost:2000/api/movie/search/ID
 app.get("/api/:type/search/:id_genere", (req, resp) => {
   const id_genere = req.params.id_genere;
   const type = req.params.type;
@@ -232,7 +231,7 @@ app.get("/api/:type/search/:id_genere", (req, resp) => {
         api_key: APY_KEY,
         language: language,
         with_genres: id_genere,
-        include_video : true,
+        include_video: true,
       },
     })
 
