@@ -132,7 +132,7 @@ app.get("/api/video/:type/:id", (req, resp) => {
       // TEST
       if (type === "movie") {
         resp.json(
-          "https://www.youtube.com/watch?v=" + response.data.results[0].key
+          "https://www.youtube.com/embed/" + response.data.results[0].key
         );
       } else if (type === "tv") {
         resp.json("" + response.data.results[0].name);
