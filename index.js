@@ -26,6 +26,7 @@ app.get(`/api/movie/trends/:type/:time`, (req, resp) => {
   const time = req.params.time; // day, week, month, year
   const language = "it-IT"; // en-US, it-IT, es-ES, ...
 
+  resp.setHeader("Access-Control-Allow-Origin", "*");
   // Make a request for a user with type (all, movie, tv) and time (day, week, month, year)
   axios
     .get("https://api.themoviedb.org/3/trending/" + type + "/" + time, {
@@ -90,6 +91,7 @@ app.get("/api/movie/:id", (req, resp) => {
   const id = req.params.id;
   const language = "it-IT"; // en-US, it-IT, es-ES, ...
 
+  resp.setHeader("Access-Control-Allow-Origin", "*");
   // Make a request for a user with a given ID
   axios
     .get("https://api.themoviedb.org/3/movie/" + id, {
@@ -108,7 +110,7 @@ app.get("/api/movie/:id", (req, resp) => {
     });
 });
 
-//TODO: RICERCA TRAILER FILM PER ID
+//TODO: RICERCA TRAILER PER ID
 
 // https://api.themoviedb.org/3/ movie / 3 /videos? api_key=c0af7194607876d6036970e4504abc6d&language=en-US
 
@@ -117,7 +119,8 @@ app.get("/api/movie/:id", (req, resp) => {
 app.get("/api/video/:type/:id", (req, resp) => {
   const type = req.params.type; // all, movie, tv
   const id = req.params.id;
-  const language = "it-IT"; // en-US, it-IT, es-ES, ...
+  const language = "en-US"; // en-US, it-IT, es-ES, ...
+  resp.setHeader("Access-Control-Allow-Origin", "*");
   axios
     .get("https://api.themoviedb.org/3/" + type + "/" + id + "/videos", {
       params: {
@@ -134,8 +137,8 @@ app.get("/api/video/:type/:id", (req, resp) => {
         resp.json(
           "https://www.youtube.com/embed/" + response.data.results[0].key
         );
-      } else if (type === "tv") {
-        resp.json("" + response.data.results[0].name);
+      } if (type === "tv") {
+        resp.json("https://www.youtube.com/watch?v=" + response.data.results[0].key);
       }
       //TEST
     })
@@ -144,6 +147,7 @@ app.get("/api/video/:type/:id", (req, resp) => {
       console.log(error);
     });
 });
+
 // TODO: RICERCA FILM PER TITOLO E TIPO
 
 // https://api.themoviedb.org/3/search/movie?api_key=c0af7194607876d6036970e4504abc6d&language=it-IT&query=NOME_MOVIE
@@ -154,6 +158,7 @@ app.get("/api/title/search/:type/:query", (req, resp) => {
   const language = "it-IT";
   const adult = false;
 
+  resp.setHeader("Access-Control-Allow-Origin", "*");
   // Make a request for a user with type and query
   axios
     .get("https://api.themoviedb.org/3/search/" + type, {
@@ -224,6 +229,7 @@ app.get("/api/:type/search/:id_genere", (req, resp) => {
   const id_genere = req.params.id_genere;
   const type = req.params.type;
   const language = "it-IT";
+  resp.setHeader("Access-Control-Allow-Origin", "*");
   // Make a request for a user with id_genere
   axios
     .get("https://api.themoviedb.org/3/discover/" + type, {
