@@ -138,7 +138,7 @@ app.get("/api/video/:type/:id", (req, resp) => {
           "https://www.youtube.com/embed/" + response.data.results[0].key
         );
       } if (type === "tv") {
-        resp.json("https://www.youtube.com/watch?v=" + response.data.results[0].key);
+        resp.json("https://www.youtube.com/embed/" + response.data.results[0].key);
       }
       //TEST
     })
